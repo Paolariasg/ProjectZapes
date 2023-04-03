@@ -35,12 +35,10 @@ app.post('/registrar', (req, res) => {
 app.post('/sesion', (req, res) => {
     const { correo, password } = req.body;
 
-    // Verificar que el correo electrónico y la contraseña sean válidos
     if (!correo || !password) {
         return res.status(400).send('Correo electrónico y contraseña son requeridos');
     }
 
-    // Verificar que el correo electrónico y la contraseña coincidan en la base de datos
     connection.query('SELECT * FROM usuarios WHERE correo = ? AND password = ?', [correo, password], (err, results) => {
         if (err) {
             console.error('Error al buscar usuario en la base de datos: ', err);
@@ -51,7 +49,6 @@ app.post('/sesion', (req, res) => {
             return res.status(401).send('Correo electrónico o contraseña incorrectos');
         }
 
-        // Inicio de sesión exitoso
         res.status(200).send({ message: 'Sesión iniciada' });
     });
 });
